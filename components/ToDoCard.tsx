@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text } from "react-native";
 import Card from "./Card";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const ToDoCard = (props: Props) => {
   return (
@@ -9,7 +9,7 @@ const ToDoCard = (props: Props) => {
       <Text style={{
           marginEnd: 10
       }}>{props.name}</Text>
-      <FontAwesome name="rocket" size={30} color="#900" />
+      <FontAwesome name="fa-solid fa-arrow-trend-up" size={30} color="#900" />
     </Card>
   );
 };
