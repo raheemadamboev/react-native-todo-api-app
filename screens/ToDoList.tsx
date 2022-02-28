@@ -3,8 +3,8 @@ import { StyleSheet, View, FlatList, Text } from "react-native";
 import { useEffect, useState } from "react";
 import { ToDo } from "../App";
 import ProgressBar from "../components/ProgressBar";
-import Card from "../components/Card";
 import Colors from "../constants/Colors";
+import ToDoCard from "../components/ToDoCard";
 
 const ToDoList = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -14,9 +14,7 @@ const ToDoList = (props: Props) => {
   useEffect(() => {
     setTimeout(() => {
       fetch("https://jsonplaceholder.typicode.com/todos")
-        .then((response) => {
-          return response.json();
-        })
+        .then((response) => response.json())
         .then((json) => setTodos(json as ToDo[]))
         .catch((error) => setError(error))
         .finally(() => setLoading(false));
@@ -33,10 +31,7 @@ const ToDoList = (props: Props) => {
       <FlatList
         data={todos}
         renderItem={(todo) => (
-          <Card style={styles.card}>
-            <Text>{todo.item.id}</Text>
-            <Text>{todo.item.title}</Text>
-          </Card>
+          <ToDoCard name={todo.item.title} completed={todo.item.completed} />
         )}
       />
     );
@@ -49,12 +44,6 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     paddingTop: 30,
-  },
-  card: {
-    marginStart: 10,
-    marginEnd: 10,
-    marginTop: 4,
-    marginBottom: 4,
   },
   errorText: {
     fontSize: 15,
