@@ -4,11 +4,8 @@ import Colors from "../constants/Colors";
 import * as Progress from "react-native-progress";
 
 const ProgressBar = (props: Props) => {
-  let progressBar;
-  let errorText;
-
-  if (props.loading) {
-    progressBar = (
+  return (
+    <View style={styles.screen}>
       <Progress.CircleSnail
         color={Colors.primary}
         size={45}
@@ -16,17 +13,6 @@ const ProgressBar = (props: Props) => {
         indeterminate={true}
         spinDuration={3000}
       />
-    );
-  }
-
-  if (props.error !== "") {
-    errorText = <Text style={styles.error}>{props.error}</Text>;
-  }
-
-  return (
-    <View style={styles.screen}>
-      {progressBar}
-      {errorText}
     </View>
   );
 };
@@ -37,15 +23,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  error: {
-    fontSize: 15,
-    color: Colors.text_error,
-  },
 });
 
-export type Props = {
-  loading: boolean;
-  error: string;
-};
+export type Props = {};
 
 export default ProgressBar;
