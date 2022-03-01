@@ -1,14 +1,17 @@
-import { FlatList, StyleSheet, View, Text } from "react-native";
-import Colors from "./constants/Colors";
-import ProgressBar from "./components/ProgressBar";
-import { useEffect, useState } from "react";
-import ToDoList from "./screens/ToDoList";
+import { StyleSheet, View } from "react-native";
+import Colors from "./src/constants/Colors";
+import ToDoList, { navigationRef } from "./src/screens/ToDoList";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import ToDoScreen from "./src/screens/ToDoScreen";
 
 export default function App() {
   return (
-    <View style={styles.screen}>
-     <ToDoList/>
-    </View>
+    <NavigationContainer>
+      <View style={styles.screen}>
+        <ToDoList />
+      </View>
+    </NavigationContainer>
   );
 }
 
@@ -26,4 +29,22 @@ export type ToDo = {
   id: number;
   title: string;
   completed: boolean;
+};
+
+export type MyStackParamList = {
+  ToDoList: undefined,
+  ToDo: ToDo
+}
+
+const Stack = createNativeStackNavigator<MyStackParamList>();
+
+const MyStack = () => {
+  return (
+    <NavigationContainer ref={navigationRef}>
+      <Stack.Navigator>
+        <Stack.Screen name="ToDoList" component={ToDoList} />
+        <Stack.Screen name="ToDo" component={ToDoScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 };

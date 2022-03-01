@@ -1,15 +1,42 @@
 import React from "react";
 import { StyleSheet, View, FlatList, Text } from "react-native";
 import { useEffect, useState } from "react";
-import { ToDo } from "../App";
+import { MyStackParamList, ToDo } from "../../App";
 import ProgressBar from "../components/ProgressBar";
 import Colors from "../constants/Colors";
 import ToDoCard from "../components/ToDoCard";
+import {
+  createNavigationContainerRef,
+  useNavigation,
+} from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+export const navigationRef = createNavigationContainerRef();
+
+export function navigate(name: string) {
+  if (navigationRef.isReady()) {
+    // Perform navigation if the react navigation is ready to handle actions
+    navigationRef.navigate({
+      key: name,
+    });
+  } else {
+    // You can decide what to do if react navigation is not ready
+    // You can ignore this, or add these actions to a queue you can call later
+  }
+}
+
+type navigationType = NativeStackNavigationProp<MyStackParamList, "ToDoList">
 
 const ToDoList = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [todos, setTodos] = useState<ToDo[]>([]);
   const [error, setError] = useState<string>("");
+
+  const navigation = useNavigation<navigationType>();
+
+  const onToDoClick = (todo: ToDo) => {
+    navigate("ToDo")
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -31,7 +58,7 @@ const ToDoList = (props: Props) => {
       <FlatList
         data={todos}
         renderItem={(todo) => (
-          <ToDoCard name={todo.item.title} completed={todo.item.completed} />
+          <ToDoCard todo={todo.item} onToDoClick={onToDoClick} />
         )}
       />
     );
@@ -44,6 +71,8 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     paddingTop: 30,
+    justifyContent: "space-evenly",
+    alignItems: "stretch",
   },
   errorText: {
     fontSize: 15,
